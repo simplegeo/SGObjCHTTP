@@ -12,7 +12,7 @@
 
 #if NS_BLOCKS_AVAILABLE
 typedef void (^SGFailureBlock)(NSError *error);
-typedef void (^SGSuccessBlock)(NSObject *response);
+typedef void (^SGSuccessBlock)(id response);
 #endif
 
 @interface SGCallback : NSObject
@@ -65,7 +65,7 @@ typedef void (^SGSuccessBlock)(NSObject *response);
 
 - (void)sendHTTPRequest:(NSString *)type
                   toURL:(NSURL *)url
-             withParams:(NSDictionary *)params 
+             withParams:(id)params 
                callback:(SGCallback *)callback;
 
 @end

@@ -57,8 +57,9 @@
 {
     self = [super init];
     if(self) {
-        successBlock = sBlock;
-        failureBlock = fBlock;
+        delegate = nil;
+        successBlock = [sBlock copy];
+        failureBlock = [fBlock copy];
     }
     
     return self;
@@ -207,7 +208,7 @@
 
 - (void)sendHTTPRequest:(NSString *)type
                   toURL:(NSURL *)url
-             withParams:(NSDictionary *)params 
+             withParams:(id)params 
                callback:(SGCallback *)callback
 {	
     // Used in 3-legged oauth2.0
@@ -221,19 +222,28 @@
     ASIHTTPRequest* request = nil;
     if([type isEqualToString:@"POST"]) {
         ASIFormDataRequest *postRequest = [ASIFormDataRequest requestWithURL:url];
-        for(NSString *key in [[params allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
-            [postRequest setPostValue:[params objectForKey:key] forKey:key];
-        }
+        if([params isKindOfClass:[NSDictionary class]]) {
+            for(NSString *key in [[params allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
+                [postRequest setPostValue:[params objectForKey:key] forKey:key];
+            }
+        } else if([params isKindOfClass:[NSData class]])
+            [postRequest setPostBody:[NSMutableData dataWithData:params]];
+
         request = postRequest;
     } else {
         NSString *queryParameters = @"";
-        if(params && [params count])
+        if(params && [params isKindOfClass:[NSDictionary class]] && [params count]) {
             queryParameters = [NSString stringWithFormat:@"%@%@", 
                                url.query ? @"&" : @"?",
                                [self normalizeRequestParams:params]];
         
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [url absoluteString], queryParameters]];
-        request = [ASIHTTPRequest requestWithURL:url];        
+            url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [url absoluteString], queryParameters]];
+        }
+
+        request = [ASIHTTPRequest requestWithURL:url];
+        
+        if(params && [params isKindOfClass:[NSData class]])
+            [request setPostBody:[NSMutableData dataWithData:params]];
     }
     
     request.requestMethod = type;
@@ -267,10 +277,8 @@
     NSString *value= nil;
     for(NSString* param in params) {
         value = [params objectForKey:param];
-        
-        // No need to URL encode here as it is done by ASI
         param = [NSString stringWithFormat:@"%@=%@", param, value];
-        [parameterPairs addObject:param];
+        [parameterPairs addObject:[param stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
     }
     
     NSArray* sortedPairs = [parameterPairs sortedArrayUsingSelector:@selector(compare:)];
