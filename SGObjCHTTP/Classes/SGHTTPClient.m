@@ -104,6 +104,7 @@
 @end
 
 @implementation SGHTTPClient
+@synthesize consumerKey, consumerSecret, accessToken, accessSecret, verifier;
 
 - (id)initWithConsumerKey:(NSString *)key consumerSecret:(NSString *)secret
 {
@@ -254,6 +255,7 @@
                                           secret:consumerSecret
                                  tokenIdentifier:accessToken
                                           secret:accessSecret
+                                        verifier:verifier
                                      usingMethod:ASIOAuthHMAC_SHA1SignatureMethod];
     }
     
@@ -300,6 +302,7 @@
     [accessToken release];
     [accessSecret release];
     [consumerSecret release];
+    [verifier release];
     [super dealloc];
 }
 
