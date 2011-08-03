@@ -231,13 +231,15 @@
 
         request = postRequest;
     } else {
-        NSString *queryParameters = @"";
-        if(params && [params isKindOfClass:[NSDictionary class]] && [params count]) {
-            queryParameters = [NSString stringWithFormat:@"%@%@", 
-                               url.query ? @"&" : @"?",
-                               [self normalizeRequestParams:params]];
-        
-            url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [url absoluteString], queryParameters]];
+        NSString *queryParameters = nil;
+        if(params) {
+           if([params isKindOfClass:[NSDictionary class]] && [params count]) {
+               queryParameters = [NSString stringWithFormat:@"%@%@", 
+                                  url.query ? @"&" : @"?",
+                                  [self normalizeRequestParams:params]];
+               
+               url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [url absoluteString], queryParameters]];               
+           }
         }
 
         request = [ASIHTTPRequest requestWithURL:url];
@@ -274,11 +276,18 @@
 - (NSString *)normalizeRequestParams:(NSDictionary *)params
 {
     NSMutableArray *parameterPairs = [NSMutableArray arrayWithCapacity:([params count])];
-    NSString *value= nil;
+    id value= nil;
     for(NSString* param in params) {
         value = [params objectForKey:param];
-        param = [NSString stringWithFormat:@"%@=%@", param, value];
-        [parameterPairs addObject:[param stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+        if([value isKindOfClass:[NSArray class]]) {
+            for(NSString *element in value) {
+                [parameterPairs addObject:[[NSString stringWithFormat:@"%@=%@", param, element]
+                                           stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];                
+            }
+        } else {
+            param = [NSString stringWithFormat:@"%@=%@", param, value];
+            [parameterPairs addObject:[param stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+        }
     }
     
     NSArray* sortedPairs = [parameterPairs sortedArrayUsingSelector:@selector(compare:)];
