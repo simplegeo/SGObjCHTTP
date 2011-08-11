@@ -28,13 +28,13 @@ typedef void (^SGSuccessBlock)(id response);
 #endif
 }
 
-@property (nonatomic, readonly) id delegate;
-@property (nonatomic, readonly) SEL successMethod;
-@property (nonatomic, readonly) SEL failureMethod;
+@property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) SEL successMethod;
+@property (nonatomic, assign) SEL failureMethod;
 
 #if NS_BLOCKS_AVAILABLE
-@property (nonatomic, readonly) SGSuccessBlock successBlock;
-@property (nonatomic, readonly) SGFailureBlock failureBlock;
+@property (nonatomic, retain) SGSuccessBlock successBlock;
+@property (nonatomic, retain) SGFailureBlock failureBlock;
 #endif
 
 + (SGCallback *)callbackWithDelegate:(id)delegate successMethod:(SEL)method failureMethod:(SEL)method;
