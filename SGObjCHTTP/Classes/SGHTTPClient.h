@@ -52,21 +52,21 @@ typedef void (^SGSuccessBlock)(id response);
     NSString *consumerKey;
     NSString *consumerSecret;
     NSString *accessToken;
-    NSString *accessSecret;
+    NSString *accessTokenSecret;
     NSString *verifier;
 }
 
 @property (nonatomic, retain) NSString *consumerKey;
 @property (nonatomic, retain) NSString *consumerSecret;
 @property (nonatomic, retain) NSString *accessToken;
-@property (nonatomic, retain) NSString *accessSecret;
+@property (nonatomic, retain) NSString *accessTokenSecret;
 @property (nonatomic, retain) NSString *verifier;
 
 - (id)initWithConsumerKey:(NSString *)key consumerSecret:(NSString *)secret;
 - (id)initWithConsumerKey:(NSString *)key
            consumerSecret:(NSString *)secret 
               accessToken:(NSString *)accessToken 
-             accessSecret:(NSString *)accessSecret;
+             accessTokenSecret:(NSString *)accessTokenSecret;
 - (id)initWithAccessToken:(NSString *)accessToken;
 
 - (void)sendHTTPRequest:(NSString *)type

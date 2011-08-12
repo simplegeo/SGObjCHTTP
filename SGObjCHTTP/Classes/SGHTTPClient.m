@@ -104,11 +104,11 @@
 @end
 
 @implementation SGHTTPClient
-@synthesize consumerKey, consumerSecret, accessToken, accessSecret, verifier;
+@synthesize consumerKey, consumerSecret, accessToken, accessTokenSecret, verifier;
 
 - (id)initWithConsumerKey:(NSString *)key consumerSecret:(NSString *)secret
 {
-    return [self initWithConsumerKey:key consumerSecret:secret accessToken:nil accessSecret:nil];
+    return [self initWithConsumerKey:key consumerSecret:secret accessToken:nil accessTokenSecret:nil];
 }
 
 - (id)initWithAccessToken:(NSString *)token
@@ -116,13 +116,13 @@
     return [self initWithConsumerKey:nil
                       consumerSecret:nil
                          accessToken:token
-                        accessSecret:nil];
+                        accessTokenSecret:nil];
 }
 
 - (id)initWithConsumerKey:(NSString *)key
            consumerSecret:(NSString *)secret 
               accessToken:(NSString *)tokenKey 
-             accessSecret:(NSString *)tokenSecret
+             accessTokenSecret:(NSString *)tokenSecret
 {
     self = [super init];
     if(self) {
@@ -134,7 +134,7 @@
         if(tokenKey)
             accessToken = [tokenKey retain];
         if(tokenSecret)
-            accessSecret = [tokenSecret retain];
+            accessTokenSecret = [tokenSecret retain];
     }
     
     return self;    
@@ -254,7 +254,7 @@
         [request signRequestWithClientIdentifier:consumerKey
                                           secret:consumerSecret
                                  tokenIdentifier:accessToken
-                                          secret:accessSecret
+                                          secret:accessTokenSecret
                                         verifier:verifier
                                      usingMethod:ASIOAuthHMAC_SHA1SignatureMethod];
     }
@@ -300,7 +300,7 @@
 {
     [consumerKey release];
     [accessToken release];
-    [accessSecret release];
+    [accessTokenSecret release];
     [consumerSecret release];
     [verifier release];
     [super dealloc];
