@@ -66,6 +66,28 @@
 }
 #endif
 
+- (void)doSuccess:(id)response
+{
+    if(delegate)
+        [delegate performSelector:successMethod withObject:response];
+
+#if NS_BLOCKS_AVAILABLE
+    if(successBlock)
+       successBlock(response);
+#endif
+}
+
+- (void)doFailure:(NSError *)error
+{
+    if(delegate)
+        [delegate performSelector:failureMethod withObject:error];
+    
+#if NS_BLOCKS_AVAILABLE
+    if(failureBlock)
+        failureBlock(error);
+#endif    
+}
+
 - (void)dealloc
 {
 #if NS_BLOCKS_AVAILABLE

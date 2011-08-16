@@ -45,6 +45,9 @@ typedef void (^SGSuccessBlock)(id response);
 - (id)initWithSuccessBlock:(SGSuccessBlock)sBlock failureBlock:(SGFailureBlock)fBlock;
 #endif
 
+- (void)doSuccess:(id)response;
+- (void)doFailure:(NSError *)error;
+
 @end
 
 @interface SGHTTPClient : NSObject {
