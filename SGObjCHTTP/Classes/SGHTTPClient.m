@@ -8,16 +8,16 @@
 
 #import "SGHTTPClient.h"
 
-#import "ASIHTTPRequest.h"
-#import "ASIHTTPRequest+OAuth.h"
-#import "ASIFormDataRequest.h"
-#import "ASIFormDataRequest+OAuth.h"
+#import "SGASIHTTPRequest.h"
+#import "SGASIHTTPRequest+OAuth.h"
+#import "SGASIFormDataRequest.h"
+#import "SGASIFormDataRequest+OAuth.h"
 
-#import "JSONKit.h"
+#import "SGJSONKit.h"
 
 @interface SGHTTPClient (Private)
 
-- (void)handleRequest:(ASIHTTPRequest *)request failure:(BOOL)failed;
+- (void)handleRequest:(SGASIHTTPRequest *)request failure:(BOOL)failed;
 
 - (NSString *)normalizeRequestParams:(NSDictionary *)params;
 - (NSObject *)jsonObjectForResponseData:(NSData *)data;
@@ -63,10 +63,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
-#pragma mark ASIHTTPRequest delegate methods 
+#pragma mark SGASIHTTPRequest delegate methods 
 //////////////////////////////////////////////////////////////////////////////////////////////// 
 
-- (void)requestFinished:(ASIHTTPRequest *)request
+- (void)requestFinished:(SGASIHTTPRequest *)request
 {    
     if(200 <= [request responseStatusCode] && [request responseStatusCode] < 300)
         [self handleRequest:request failure:NO];
@@ -74,12 +74,12 @@
         [self handleRequest:request failure:YES];
 }
 
-- (void)requestFailed:(ASIHTTPRequest *)request
+- (void)requestFailed:(SGASIHTTPRequest *)request
 {
     [self handleRequest:request failure:YES];
 }
 
-- (void)handleRequest:(ASIHTTPRequest *)request failure:(BOOL)failed
+- (void)handleRequest:(SGASIHTTPRequest *)request failure:(BOOL)failed
 {
     // Every request should contain a callback. If it doesn't,
     // then we are not setup to handle the request.
@@ -141,9 +141,9 @@
                                     [self normalizeRequestParams:[NSDictionary dictionaryWithObject:accessToken forKey:@"oauth_token"]]]];
     }
     
-    ASIHTTPRequest* request = nil;
+    SGASIHTTPRequest* request = nil;
     if([type isEqualToString:@"POST"]) {
-        ASIFormDataRequest *postRequest = [ASIFormDataRequest requestWithURL:url];
+        SGASIFormDataRequest *postRequest = [SGASIFormDataRequest requestWithURL:url];
         if([params isKindOfClass:[NSDictionary class]]) {
             for(NSString *key in [[params allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
                 [postRequest setPostValue:[params objectForKey:key] forKey:key];
@@ -164,7 +164,7 @@
             }
         }
         
-        request = [ASIHTTPRequest requestWithURL:url];
+        request = [SGASIHTTPRequest requestWithURL:url];
         
         if(params && [params isKindOfClass:[NSData class]])
             [request setPostBody:[NSMutableData dataWithData:params]];
@@ -177,7 +177,7 @@
                                  tokenIdentifier:accessToken
                                           secret:accessTokenSecret
                                         verifier:verifier
-                                     usingMethod:ASIOAuthHMAC_SHA1SignatureMethod];
+                                     usingMethod:SGASIOAuthHMAC_SHA1SignatureMethod];
     }
     
     request.userInfo = [NSDictionary dictionaryWithObject:callback forKey:@"callback"];    

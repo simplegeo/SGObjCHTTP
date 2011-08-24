@@ -1,9 +1,0 @@
-[submodule "SGObjCHTTP/Resources/3rd-Party/asi-http-request"]
-	path = SGObjCHTTP/Resources/3rd-Party/asi-http-request
-	url = https://github.com/pokeb/asi-http-request.git
-[submodule "SGObjCHTTP/Resources/3rd-Party/asi-http-request-oauth"]
-	path = SGObjCHTTP/Resources/3rd-Party/asi-http-request-oauth
-	url = https://github.com/keybuk/asi-http-request-oauth.git
-[submodule "SGObjCHTTP/Resources/3rd-Party/JSONKit"]
-	path = SGObjCHTTP/Resources/3rd-Party/JSONKit
-	url = https://github.com/johnezang/JSONKit.git

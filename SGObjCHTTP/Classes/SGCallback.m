@@ -8,10 +8,10 @@
 
 #import "SGCallback.h"
 
-#import "JSONKit.h"
-#import "ASIHTTPRequest.h"
-#import "ASIHTTPRequest+OAuth.h"
-#import "ASIFormDataRequest+OAuth.h"
+#import "SGJSONKit.h"
+#import "SGASIHTTPRequest.h"
+#import "SGASIHTTPRequest+OAuth.h"
+#import "SGASIFormDataRequest+OAuth.h"
 
 @interface SGCallback (Private)
 
