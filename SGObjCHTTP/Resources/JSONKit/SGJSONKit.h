@@ -182,7 +182,7 @@ typedef struct SGJKParseState SGJKParseState; // Opaque internal, private type.
 #pragma mark Deserializing methods
 ////////////
 
-@interface NSString (JSONKitDeserializing)
+@interface NSString (SGJSONKitDeserializing)
 - (id)objectFromJSONString;
 - (id)objectFromJSONStringWithParseOptions:(SGJKParseOptionFlags)parseOptionFlags;
 - (id)objectFromJSONStringWithParseOptions:(SGJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
@@ -191,7 +191,7 @@ typedef struct SGJKParseState SGJKParseState; // Opaque internal, private type.
 - (id)mutableObjectFromJSONStringWithParseOptions:(SGJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
 @end
 
-@interface NSData (JSONKitDeserializing)
+@interface NSData (SGJSONKitDeserializing)
 // The NSData MUST be UTF8 encoded JSON.
 - (id)objectFromJSONData;
 - (id)objectFromJSONDataWithParseOptions:(SGJKParseOptionFlags)parseOptionFlags;

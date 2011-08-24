@@ -2325,7 +2325,7 @@ static id _SGJKParseUTF8String(SGJKParseState *parseState, BOOL mutableCollectio
  autorelease limbo, but we've done our best to minimize that impact, so it all balances out.
  */
 
-@implementation NSString (JSONKitDeserializing)
+@implementation NSString (SGJSONKitDeserializing)
 
 static id _NSStringObjectFromJSONString(NSString *jsonString, SGJKParseOptionFlags parseOptionFlags, NSError **error, BOOL mutableCollection) {
   id                returnObject = NULL;
@@ -2385,7 +2385,7 @@ exitNow:
 
 @end
 
-@implementation NSData (JSONKitDeserializing)
+@implementation NSData (SGJSONKitDeserializing)
 
 - (id)objectFromJSONData
 {
