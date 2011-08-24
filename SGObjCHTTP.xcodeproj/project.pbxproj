@@ -13,7 +13,6 @@
 		4AC155D513E85A25005A09B7 /* SGObjCHTTP-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4AC155D413E85A25005A09B7 /* SGObjCHTTP-Prefix.pch */; };
 		4AFD5D3D1405870B007B61EF /* SGCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AFD5D3B1405870B007B61EF /* SGCallback.h */; };
 		4AFD5D3E1405870B007B61EF /* SGCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFD5D3C1405870B007B61EF /* SGCallback.m */; };
-		4AFD5DC514059279007B61EF /* SGASIAuthenticationDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AFD5D4214059279007B61EF /* SGASIAuthenticationDialog.h */; };
 		4AFD5DC614059279007B61EF /* SGASICacheDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AFD5D4314059279007B61EF /* SGASICacheDelegate.h */; };
 		4AFD5DC714059279007B61EF /* SGASIDataCompressor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AFD5D4414059279007B61EF /* SGASIDataCompressor.h */; };
 		4AFD5DC814059279007B61EF /* SGASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFD5D4514059279007B61EF /* SGASIDataCompressor.m */; };
@@ -54,7 +53,6 @@
 		4AC155D413E85A25005A09B7 /* SGObjCHTTP-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SGObjCHTTP-Prefix.pch"; sourceTree = "<group>"; };
 		4AFD5D3B1405870B007B61EF /* SGCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGCallback.h; sourceTree = "<group>"; };
 		4AFD5D3C1405870B007B61EF /* SGCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGCallback.m; sourceTree = "<group>"; };
-		4AFD5D4214059279007B61EF /* SGASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		4AFD5D4314059279007B61EF /* SGASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGASICacheDelegate.h; sourceTree = "<group>"; };
 		4AFD5D4414059279007B61EF /* SGASIDataCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGASIDataCompressor.h; sourceTree = "<group>"; };
 		4AFD5D4514059279007B61EF /* SGASIDataCompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGASIDataCompressor.m; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 		4AFD5D4114059279007B61EF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4AFD5D4214059279007B61EF /* SGASIAuthenticationDialog.h */,
 				4AFD5D4314059279007B61EF /* SGASICacheDelegate.h */,
 				4AFD5D4414059279007B61EF /* SGASIDataCompressor.h */,
 				4AFD5D4514059279007B61EF /* SGASIDataCompressor.m */,
@@ -229,7 +226,6 @@
 				4AC155CA13E858DC005A09B7 /* SGHTTPClient.h in Headers */,
 				4AC155D513E85A25005A09B7 /* SGObjCHTTP-Prefix.pch in Headers */,
 				4AFD5D3D1405870B007B61EF /* SGCallback.h in Headers */,
-				4AFD5DC514059279007B61EF /* SGASIAuthenticationDialog.h in Headers */,
 				4AFD5DC614059279007B61EF /* SGASICacheDelegate.h in Headers */,
 				4AFD5DC714059279007B61EF /* SGASIDataCompressor.h in Headers */,
 				4AFD5DC914059279007B61EF /* SGASIDataDecompressor.h in Headers */,

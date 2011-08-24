@@ -21,7 +21,6 @@
 
 #if TARGET_OS_IPHONE
 #import "SGReachability.h"
-#import "SGASIAuthenticationDialog.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #else
 #import <SystemConfiguration/SystemConfiguration.h>
@@ -299,7 +298,6 @@ static NSOperationQueue *sharedQueue = nil;
 	[self setAllowCompressedResponse:YES];
 	[self setShouldWaitToInflateCompressedResponses:YES];
 	[self setDefaultResponseEncoding:NSISOLatin1StringEncoding];
-	[self setShouldPresentProxyAuthenticationDialog:YES];
 	
 	[self setTimeOutSeconds:[SGASIHTTPRequest defaultTimeOutSeconds]];
 	[self setUseSessionPersistence:YES];
@@ -1621,8 +1619,6 @@ static NSOperationQueue *sharedQueue = nil;
 	[headRequest setProxyHost:[self proxyHost]];
 	[headRequest setProxyPort:[self proxyPort]];
 	[headRequest setProxyType:[self proxyType]];
-	[headRequest setShouldPresentAuthenticationDialog:[self shouldPresentAuthenticationDialog]];
-	[headRequest setShouldPresentProxyAuthenticationDialog:[self shouldPresentProxyAuthenticationDialog]];
 	[headRequest setTimeOutSeconds:[self timeOutSeconds]];
 	[headRequest setUseHTTPVersionOne:[self useHTTPVersionOne]];
 	[headRequest setValidatesSecureCertificate:[self validatesSecureCertificate]];
@@ -2623,25 +2619,6 @@ static NSOperationQueue *sharedQueue = nil;
 	[self failWithError:SGASIAuthenticationError];
 }
 
-- (BOOL)showProxyAuthenticationDialog
-{
-	if ([self isSynchronous]) {
-		return NO;
-	}
-
-	// Mac authentication dialog coming soon!
-	#if TARGET_OS_IPHONE
-	if ([self shouldPresentProxyAuthenticationDialog]) {
-		[SGASIAuthenticationDialog performSelectorOnMainThread:@selector(presentAuthenticationDialogForRequest:) withObject:self waitUntilDone:[NSThread isMainThread]];
-		return YES;
-	}
-	return NO;
-	#else
-	return NO;
-	#endif
-}
-
-
 - (BOOL)willAskDelegateForProxyCredentials
 {
 	if ([self isSynchronous]) {
@@ -2814,11 +2791,6 @@ static NSOperationQueue *sharedQueue = nil;
 				[delegateAuthenticationLock unlock];
 				return;
 			}
-			if ([self showProxyAuthenticationDialog]) {
-				[self attemptToApplyProxyCredentialsAndResume];
-				[delegateAuthenticationLock unlock];
-				return;
-			}
 			[delegateAuthenticationLock unlock];
 		}
 		[self cancelLoad];
@@ -2886,10 +2858,6 @@ static NSOperationQueue *sharedQueue = nil;
 			return;
 		}
 		
-		if ([self showProxyAuthenticationDialog]) {
-			[delegateAuthenticationLock unlock];
-			return;
-		}
 		[delegateAuthenticationLock unlock];
 		
 		// The delegate isn't interested and we aren't showing the authentication dialog, we'll have to give up
@@ -2906,10 +2874,6 @@ static NSOperationQueue *sharedQueue = nil;
 	}
 	// Mac authentication dialog coming soon!
 	#if TARGET_OS_IPHONE
-	if ([self shouldPresentAuthenticationDialog]) {
-		[SGASIAuthenticationDialog performSelectorOnMainThread:@selector(presentAuthenticationDialogForRequest:) withObject:self waitUntilDone:[NSThread isMainThread]];
-		return YES;
-	}
 	return NO;
 	#else
 	return NO;
@@ -3024,15 +2988,6 @@ static NSOperationQueue *sharedQueue = nil;
 				[delegateAuthenticationLock unlock];
 				return;
 			}
-			if ([self showAuthenticationDialog]) {
-
-				#if DEBUG_HTTP_AUTHENTICATION
-				NSLog(@"[AUTH] Request %@ will ask SGASIAuthenticationDialog for credentials",self);
-				#endif
-
-				[delegateAuthenticationLock unlock];
-				return;
-			}
 			[delegateAuthenticationLock unlock];
 		}
 
@@ -3123,15 +3078,6 @@ static NSOperationQueue *sharedQueue = nil;
 
 			#if DEBUG_HTTP_AUTHENTICATION
 			NSLog(@"[AUTH] Request %@ will ask its delegate for credentials to use",self);
-			#endif
-
-			[delegateAuthenticationLock unlock];
-			return;
-		}
-		if ([self showAuthenticationDialog]) {
-
-			#if DEBUG_HTTP_AUTHENTICATION
-			NSLog(@"[AUTH] Request %@ will ask SGASIAuthenticationDialog for credentials",self);
 			#endif
 
 			[delegateAuthenticationLock unlock];
@@ -4059,8 +4005,6 @@ static NSOperationQueue *sharedQueue = nil;
 	[newRequest setProxyType:[self proxyType]];
 	[newRequest setUploadProgressDelegate:[self uploadProgressDelegate]];
 	[newRequest setDownloadProgressDelegate:[self downloadProgressDelegate]];
-	[newRequest setShouldPresentAuthenticationDialog:[self shouldPresentAuthenticationDialog]];
-	[newRequest setShouldPresentProxyAuthenticationDialog:[self shouldPresentProxyAuthenticationDialog]];
 	[newRequest setPostLength:[self postLength]];
 	[newRequest setHaveBuiltPostBody:[self haveBuiltPostBody]];
 	[newRequest setDidStartSelector:[self didStartSelector]];
@@ -5037,8 +4981,6 @@ static NSOperationQueue *sharedQueue = nil;
 @synthesize PACurl;
 @synthesize authenticationScheme;
 @synthesize proxyAuthenticationScheme;
-@synthesize shouldPresentAuthenticationDialog;
-@synthesize shouldPresentProxyAuthenticationDialog;
 @synthesize authenticationNeeded;
 @synthesize responseStatusMessage;
 @synthesize shouldPresentCredentialsBeforeChallenge;

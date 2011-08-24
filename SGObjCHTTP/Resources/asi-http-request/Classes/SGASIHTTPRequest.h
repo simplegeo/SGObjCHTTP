@@ -241,17 +241,7 @@ typedef void (^SGASIDataBlock)(NSData *data);
 	
 	// Realm for authentication when credentials are required
 	NSString *authenticationRealm;
-	
-	// When YES, SGASIHTTPRequest will present a dialog allowing users to enter credentials when no-matching credentials were found for a server that requires authentication
-	// The dialog will not be shown if your delegate responds to authenticationNeededForRequest:
-	// Default is NO.
-	BOOL shouldPresentAuthenticationDialog;
-	
-	// When YES, SGASIHTTPRequest will present a dialog allowing users to enter credentials when no-matching credentials were found for a proxy server that requires authentication
-	// The dialog will not be shown if your delegate responds to proxyAuthenticationNeededForRequest:
-	// Default is YES (bSGASIcally, because most people won't want the hassle of adding support for authenticating proxies to their apps)
-	BOOL shouldPresentProxyAuthenticationDialog;	
-	
+		
 	// Used for proxy authentication
     CFHTTPAuthenticationRef proxyAuthentication; 
 	NSDictionary *proxyCredentials;
@@ -705,11 +695,6 @@ typedef void (^SGASIDataBlock)(NSData *data);
 - (void)attemptToApplyCredentialsAndResume;
 - (void)attemptToApplyProxyCredentialsAndResume;
 
-// Attempt to show the built-in authentication dialog, returns YES if credentials were supplied, NO if user cancelled dialog / dialog is disabled / running on main thread
-// Currently only used on iPhone OS
-- (BOOL)showProxyAuthenticationDialog;
-- (BOOL)showAuthenticationDialog;
-
 // Construct a bSGASIc authentication header from the username and password supplied, and add it to the request headers
 // Used when shouldPresentCredentialsBeforeChallenge is YES
 - (void)addBSGASIcAuthenticationHeaderWithUsername:(NSString *)theUsername andPassword:(NSString *)thePassword;
@@ -975,8 +960,6 @@ typedef void (^SGASIDataBlock)(NSData *data);
 @property (retain) NSURL *PACurl;
 @property (retain) NSString *authenticationScheme;
 @property (retain) NSString *proxyAuthenticationScheme;
-@property (assign) BOOL shouldPresentAuthenticationDialog;
-@property (assign) BOOL shouldPresentProxyAuthenticationDialog;
 @property (assign, readonly) SGASIAuthenticationState authenticationNeeded;
 @property (assign) BOOL shouldPresentCredentialsBeforeChallenge;
 @property (assign, readonly) int authenticationRetryCount;
