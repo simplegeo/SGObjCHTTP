@@ -15,7 +15,7 @@
 
 #import "SGJSONKit.h"
 
-@interface SGHTTPClient (Private)
+@interface SGHTTPClient ()
 
 - (void)handleRequest:(SGASIHTTPRequest *)request failure:(BOOL)failed;
 
