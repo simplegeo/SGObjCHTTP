@@ -13,7 +13,7 @@
 #import "SGASIHTTPRequest+OAuth.h"
 #import "SGASIFormDataRequest+OAuth.h"
 
-@interface SGHTTPClient ()
+@interface SGCallback ()
 
 #if NS_BLOCKS_AVAILABLE
 + (void)releaseBlocks:(NSArray *)blocks;
