@@ -14,25 +14,19 @@
 
 #import "SGNSString+URLEncode.h"
 
+#define LEGAL_CHARS "!*'();:@&=+$,/?#[]<>\"{}|\\`^% "
 
 @implementation NSString (SGNSString_URLEncode)
 
 - (NSString *)encodeForURL
 {
-    // See http://en.wikipedia.org/wiki/Percent-encoding and RFC3986
-    // Hyphen, Period, Understore & Tilde are expressly legal
-    const CFStringRef legalURLCharactersToBeEscaped = CFSTR("!*'();:@&=+$,/?#[]<>\"{}|\\`^% ");
-
-    return NSMakeCollectable(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, legalURLCharactersToBeEscaped, kCFStringEncodingUTF8));
+    return NSMakeCollectable(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR(LEGAL_CHARS), kCFStringEncodingUTF8));
 }
 
 - (NSString *)encodeForURLReplacingSpacesWithPlus;
 {
-    // Same as encodeForURL, just without +
-    const CFStringRef legalURLCharactersToBeEscaped = CFSTR("!*'();:@&=$,/?#[]<>\"{}|\\`^% ");
-    
     NSString *replaced = [self stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    return NSMakeCollectable(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)replaced, NULL, legalURLCharactersToBeEscaped, kCFStringEncodingUTF8));
+    return NSMakeCollectable(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)replaced, NULL, CFSTR(LEGAL_CHARS), kCFStringEncodingUTF8));
 }
 
 - (NSString *)decodeFromURL
