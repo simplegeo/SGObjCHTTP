@@ -91,7 +91,7 @@
             if(failed) {
                 if(!response)
                     response = [[[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding] autorelease];
-                
+
                 // Add more values to this dictionary in order to provide
                 // more error information to the delegate.
                 NSDictionary *errorInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -100,10 +100,9 @@
                 NSError* error = [NSError errorWithDomain:[request.url absoluteString]
                                                      code:[request responseStatusCode]
                                                  userInfo:errorInfo];
-                
+
                 if(callback && callback.delegate && [callback.delegate respondsToSelector:callback.failureMethod])
                     [callback.delegate performSelector:callback.failureMethod withObject:error];
-                
 #if NS_BLOCKS_AVAILABLE
                 if(callback.failureBlock)
                     callback.failureBlock(error);
@@ -111,14 +110,14 @@
             } else {
                 NSObject *response = [self jsonObjectForResponseData:[request responseData]];
                 if(callback && callback.delegate && [callback.delegate respondsToSelector:callback.successMethod])
-                    [callback.delegate performSelector:callback.successMethod 
-                                            withObject:response];                
-                
+                    [callback.delegate performSelector:callback.successMethod
+                                            withObject:response];
+
 #if NS_BLOCKS_AVAILABLE
                 if(callback.successBlock)
                     callback.successBlock(response);
 #endif
-            }   
+            }
         }
     }
 }
@@ -140,7 +139,7 @@
                                     [url query] ? @"&" : @"?",
                                     [self normalizeRequestParams:[NSDictionary dictionaryWithObject:accessToken forKey:@"oauth_token"]]]];
     }
-    
+
     SGASIHTTPRequest* request = nil;
     if([type isEqualToString:@"POST"]) {
         SGASIFormDataRequest *postRequest = [SGASIFormDataRequest requestWithURL:url];
@@ -150,7 +149,7 @@
             }
         } else if([params isKindOfClass:[NSData class]])
             [postRequest setPostBody:[NSMutableData dataWithData:params]];
-        
+
         request = postRequest;
     } else {
         NSString *queryParameters = nil;
@@ -159,17 +158,17 @@
                 queryParameters = [NSString stringWithFormat:@"%@%@", 
                                    url.query ? @"&" : @"?",
                                    [self normalizeRequestParams:params]];
-                
-                url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [url absoluteString], queryParameters]];               
+
+                url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [url absoluteString], queryParameters]];
             }
         }
-        
+
         request = [SGASIHTTPRequest requestWithURL:url];
-        
+
         if(params && [params isKindOfClass:[NSData class]])
             [request setPostBody:[NSMutableData dataWithData:params]];
     }
-    
+
     request.requestMethod = type;
     if(consumerKey && consumerSecret) {
         [request signRequestWithClientIdentifier:consumerKey
@@ -179,7 +178,7 @@
                                         verifier:verifier
                                      usingMethod:SGASIOAuthHMAC_SHA1SignatureMethod];
     }
-    
+
     request.userInfo = [NSDictionary dictionaryWithObject:callback forKey:@"callback"];    
     [request setDelegate:self];
     [request addRequestHeader:@"Accept" value:@"application/json"];
@@ -189,10 +188,15 @@
 - (NSObject *)jsonObjectForResponseData:(NSData *)data
 {
     NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSDictionary *jsonObject = nil;
-    if(jsonString)
+    NSObject *jsonObject = nil;
+    if(jsonString) {
         jsonObject = [jsonString objectFromJSONString];
-    [jsonString release];
+        if(!jsonObject)
+            jsonObject = [jsonString autorelease];
+        else
+            [jsonString release];
+    }
+
     return jsonObject;
 }
 
