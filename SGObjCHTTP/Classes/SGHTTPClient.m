@@ -209,11 +209,11 @@
         if([value isKindOfClass:[NSArray class]]) {
             for(NSString *element in value) {
                 [parameterPairs addObject:[[NSString stringWithFormat:@"%@=%@", param, element]
-                                           stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];                
+                                           stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];                
             }
         } else {
             param = [NSString stringWithFormat:@"%@=%@", param, value];
-            [parameterPairs addObject:[param stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+            [parameterPairs addObject:[param stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         }
     }
     
