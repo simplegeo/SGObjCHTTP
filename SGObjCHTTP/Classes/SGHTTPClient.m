@@ -208,12 +208,14 @@
         value = [params objectForKey:param];
         if([value isKindOfClass:[NSArray class]]) {
             for(NSString *element in value) {
-                [parameterPairs addObject:[[NSString stringWithFormat:@"%@=%@", param, element]
-                                           stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];                
+                [parameterPairs addObject:[[[NSString stringWithFormat:@"%@=%@", param, element]
+                                            stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                           stringByReplacingOccurrencesOfString: @"&" withString: @"%26"]];                
             }
         } else {
             param = [NSString stringWithFormat:@"%@=%@", param, value];
-            [parameterPairs addObject:[param stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            [parameterPairs addObject:[[param stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                       stringByReplacingOccurrencesOfString: @"&" withString: @"%26"]];
         }
     }
     
